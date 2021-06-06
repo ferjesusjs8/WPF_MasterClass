@@ -4,14 +4,100 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel>
-            <Label/>
-            <TextBox/>
-            <TextBox/>
-            <Button/>
-        </StackPanel>
+        Title="MainWindow" Height="525" Width="350">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="0"
+               Grid.ColumnSpan="4"
+               VerticalAlignment="Bottom"
+               HorizontalAlignment="Right"
+               FontSize="60"/>
+        <Button Margin="5"
+                Grid.Row="1"
+                Content="AC"/>
+        <Button Margin="5"
+                Grid.Row="1"
+                Grid.Column="1"
+                Content="+/1"/>
+        <Button Margin="5"
+                Grid.Row="1"
+                Grid.Column="2"
+                Content="%"/>
+        <Button Margin="5"
+                Grid.Row="1"
+                Grid.Column="3"
+                Content="/"/>
+        <Button Margin="5"
+                Grid.Row="2"
+                Content="7"/>
+        <Button Margin="5"
+                Grid.Row="2"
+                Grid.Column="1"
+                Content="8"/>
+        <Button Margin="5"
+                Grid.Row="2"
+                Grid.Column="2"
+                Content="9"/>
+        <Button Margin="5"
+                Grid.Row="2"
+                Grid.Column="3"
+                Content="*"/>
+        <Button Margin="5"
+                Grid.Row="3"
+                Content="4"/>
+        <Button Margin="5"
+                Grid.Row="3"
+                Grid.Column="1"
+                Content="5"/>
+        <Button Margin="5"
+                Grid.Row="3"
+                Grid.Column="2"
+                Content="6"/>
+        <Button Margin="5"
+                Grid.Row="3"
+                Grid.Column="3"
+                Content="-"/>
+        <Button Margin="5"
+                Grid.Row="4"
+                Content="1"/>
+        <Button Margin="5"
+                Grid.Row="4"
+                Grid.Column="1"
+                Content="2"/>
+        <Button Margin="5"
+                Grid.Row="4"
+                Grid.Column="2"
+                Content="3"/>
+        <Button Margin="5"
+                Grid.Row="4"
+                Grid.Column="3"
+                Content="+"/>
+        <Button Margin="5"
+                Grid.Row="5"
+                Content="0"
+                Grid.ColumnSpan="2"/>
+        <Button Margin="5"
+                Grid.Row="5"
+                Grid.Column="2"
+                Content="."/>
+        <Button Margin="5"
+                Grid.Row="5"
+                Grid.Column="3"
+                Content="="/>
 
     </Grid>
 </Window>
