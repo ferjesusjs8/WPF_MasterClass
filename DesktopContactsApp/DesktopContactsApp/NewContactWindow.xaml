@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
         Title="NewContactWindow" Height="400" Width="350">
     <Grid>
         <StackPanel Margin="10">
+            <TextBlock Text="Name:" />
             <TextBox x:Name="nameTextBox" Margin="5" />
-            <TextBox x:Name="lastNameTextBox" Margin="5" />
+            <TextBlock Text="Phone Number:" />
             <TextBox x:Name="phoneTextBox" Margin="5" />
+            <TextBlock Text="Email:" />
             <TextBox x:Name="emailTextBox" Margin="5" />
             <Button x:Name="saveButton" Margin="5" Click="saveButton_Click" Content="Save"/>
         </StackPanel>
