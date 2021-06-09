@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using WeatherApp.Model;
 using WeatherApp.ViewModel.Commands;
 using WeatherApp.ViewModel.Helpers;
@@ -11,10 +12,7 @@ namespace WeatherApp.ViewModel
         {
             if (DesignerProperties.GetIsInDesignMode(new System.Windows.DependencyObject()))
             {
-                selectedCity = new City()
-                {
-                    LocalizedName = "New York"
-                };
+                CityName = "New York";
 
                 currentConditions = new CurrentConditions()
                 {
@@ -23,16 +21,19 @@ namespace WeatherApp.ViewModel
                     {
                         Metric = new Units()
                         {
-                            Value = 21
+                            Value = "21"
                         }
                     }
                 };
             }
 
             SearchCommand = new SearchCommand(this);
+            Cities = new ObservableCollection<City>();
         }
 
         public SearchCommand SearchCommand { get; set; }
+
+        public ObservableCollection<City> Cities { get; set; }
 
         private string query;
 
@@ -50,12 +51,40 @@ namespace WeatherApp.ViewModel
             set { currentConditions = value; OnPropertyChanged("CurrentConditions"); }
         }
 
+        private string cityName;
+
+        public string CityName
+        {
+            get { return cityName; }
+            set { cityName = value; OnPropertyChanged("CityName"); }
+        }
+
+
+
         private City selectedCity;
 
         public City SelectedCity
         {
             get { return selectedCity; }
-            set { selectedCity = value; OnPropertyChanged("SelectedCity"); }
+            set
+            {
+                selectedCity = value;
+                OnPropertyChanged("SelectedCity");
+
+                if (selectedCity != null)
+                {
+                    CityName = selectedCity.LocalizedName;
+                    GetCurrentConditions();
+                }
+            }
+        }
+
+        private async void GetCurrentConditions()
+        {
+            Query = string.Empty;
+
+            CurrentConditions = await AccuWeatherHelper.GetCurrentConditions(SelectedCity.Key);
+            Cities.Clear();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,6 +97,11 @@ namespace WeatherApp.ViewModel
         public async void MakeQuery()
         {
             var cities = await AccuWeatherHelper.GetCities(Query);
+
+            Cities.Clear();
+
+            foreach (var city in cities)
+                Cities.Add(city);
         }
     }
 }
