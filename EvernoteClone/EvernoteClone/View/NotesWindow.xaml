@@ -30,7 +30,8 @@
             <ListView
                 DockPanel.Dock="Left"
                 Width="140"
-                ItemsSource="{Binding Notebooks}">
+                ItemsSource="{Binding Notebooks}"
+                SelectedValue="{Binding SelectedNotebook, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}" />
@@ -41,7 +42,7 @@
             <ListView
                 DockPanel.Dock="Left"
                 Width="140"
-                ItemsSource="{Binding Notes} ">
+                ItemsSource="{Binding Notes}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Title}" />
