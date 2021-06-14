@@ -40,9 +40,20 @@ namespace LandmarkAI
 
         private async Task MakePredictionAsync(string fileName)
         {
-            string url = "https://southcentralus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/f74569a9-2447-4f34-83d5-ce9b500a9098/classify/iterations/Iteration1/image";
-            string prediction_key = "dab496c9368c4cb695bb5df9bc18b56a";
-            string content_type = "application/octet-stream";
+            string url = string.Empty;
+            string prediction_key = string.Empty;
+            string content_type = string.Empty;
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "LandmarkAI.txt");
+
+            using (var reader = new StreamReader(path))
+            {
+                var text = await reader.ReadToEndAsync();
+
+                var @params = text.Split(";");
+                url = @params[0];
+                prediction_key = @params[1];
+                content_type = @params[2];
+            }
 
             var file = File.ReadAllBytes(fileName);
 
