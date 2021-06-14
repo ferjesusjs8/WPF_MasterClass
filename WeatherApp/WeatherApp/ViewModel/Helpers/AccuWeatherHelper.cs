@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,20 +11,51 @@ namespace WeatherApp.ViewModel.Helpers
 {
     public class AccuWeatherHelper
     {
-        public const string BASE_URL = "http://dataservice.accuweather.com/";
-        public const string AUTOCOMPLETE_ENDPOINT = "locations/v1/cities/autocomplete?apikey={0}&q={1}";
-        public const string CURRENT_CONDITIONS_ENDPOINT = "currentconditions/v1/{1}?apikey={0}";
-        public const string API_KEY = "rGpUJ3X8FvW4lnF84y8Hu1ELGrSPxKQ4";
-        public const string API_KEY_2 = "a6ARI9hvyWIRwwMYAiBs4HEGwSO27doT";
+        public static async Task<List<City>> GetCities(string query)
+        {
+            string BASE_URL = string.Empty;
+            string AUTOCOMPLETE_ENDPOINT = string.Empty;
+            string API_KEY = string.Empty;
+            string API_KEY_2 = string.Empty;
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WeatherApp.txt");
 
-        public static async Task<List<City>> GetCities(string query) =>
-            await GetAsync<List<City>>(query, AUTOCOMPLETE_ENDPOINT);
+            using (var reader = new StreamReader(path))
+            {
+                var text = reader.ReadToEnd();
 
-        public static async Task<CurrentConditions> GetCurrentConditions(string cityKey) =>
-            (await GetAsync<List<CurrentConditions>>(cityKey, CURRENT_CONDITIONS_ENDPOINT)).FirstOrDefault();
+                var @params = text.Split(";");
+                BASE_URL = @params[0];
+                AUTOCOMPLETE_ENDPOINT = @params[1];
+                API_KEY = @params[3];
+                API_KEY_2 = @params[4];
+            }
+
+            return await GetAsync<List<City>>(query, AUTOCOMPLETE_ENDPOINT, BASE_URL, API_KEY, API_KEY_2);
+        }
+
+        public static async Task<CurrentConditions> GetCurrentConditions(string cityKey)
+        {
+            string BASE_URL = string.Empty;
+            string CURRENT_CONDITIONS_ENDPOINT = string.Empty;
+            string API_KEY = string.Empty;
+            string API_KEY_2 = string.Empty;
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "WeatherApp.txt");
+
+            using (var reader = new StreamReader(path))
+            {
+                var text = reader.ReadToEnd();
+
+                var @params = text.Split(";");
+                BASE_URL = @params[0];
+                CURRENT_CONDITIONS_ENDPOINT = @params[2];
+                API_KEY = @params[3];
+                API_KEY_2 = @params[4];
+            }
+            return (await GetAsync<List<CurrentConditions>>(cityKey, CURRENT_CONDITIONS_ENDPOINT, BASE_URL, API_KEY, API_KEY_2)).FirstOrDefault();
+        }
 
 
-        public static async Task<T> GetAsync<T>(string parameter, string resource)
+        public static async Task<T> GetAsync<T>(string parameter, string resource, string BASE_URL, string API_KEY, string API_KEY_2)
         {
             string url = $"{BASE_URL}{string.Format(resource, API_KEY, parameter)}";
 
